@@ -42,7 +42,9 @@
 
                         <ul class="d-flex navbar-nav text-center text-lg-end">
                             <li class="nav-item">
-                                <a href="/login" class="nav-link">Login</a>
+                                <a href="/login" class="nav-link fs-5 {{ $active === 'login' ? 'active' : '' }}"><i
+                                        class="bi bi-box-arrow-in-right"></i>
+                                    Login</a>
                             </li>
                         </ul>
                     </div>
