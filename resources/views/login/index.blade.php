@@ -2,6 +2,12 @@
 
 @section('container')
     <main class="form-signin">
+        @if (session()->has('success-registration'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Holy guacamole!</strong> {{ session('success-registration') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <form>
             <h1 class="h3 mb-3 fw-normal">Please log in</h1>
 

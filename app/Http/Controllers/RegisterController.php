@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterController extends Controller
 {
@@ -38,7 +40,30 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            // kita bebas mau pake yg pipe atau yg array, sama aja
+            'name' => 'required|max:255',
+            'username' => ['required', 'min:4', 'max:30', 'unique:users,username'],
+            'email' => ['required', 'email:dns', 'unique:users,email'],
+            'password' => [
+                'required', 'max:255',
+                Password::min(5)->mixedCase()->numbers()->uncompromised()
+            ]
+        ]);
+
+        $validatedData['password'] = bcrypt($validatedData['password']);
+
+        User::create($validatedData);
+
+        //menampilkan pesan setelah berhasil
+        //dengan 2 tahap
+        // $request->session()->flash('success-registration', 'Registration Success!');
+
+        // return redirect('/login');
+
+        //dengan satu kali kiriman
+
+        return redirect('/login')->with(session()->flash('success-registration', 'Registration Success!'));
     }
 
     /**
