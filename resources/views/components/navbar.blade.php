@@ -38,16 +38,45 @@
                             <button class="btn btn-primary" type="submit">Search</button>
                         </form>
                     </div>
-                    <div class="col-12 col-lg-4">
+                    @auth
+                        <div class="col-12 col-lg-4">
 
-                        <ul class="d-flex navbar-nav text-center text-lg-end">
-                            <li class="nav-item">
-                                <a href="/login" class="nav-link fs-5 {{ $active === 'login' ? 'active' : '' }}"><i
-                                        class="bi bi-box-arrow-in-right"></i>
-                                    Login</a>
-                            </li>
-                        </ul>
-                    </div>
+                            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
+                                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Welcome, {{ auth()->user()->name }}
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-light"
+                                            aria-labelledby="navbarDarkDropdownMenuLink">
+                                            <li><a class="dropdown-item" href="#">Dashboard</a></li>
+                                            <li>
+                                                <hr class="dropdown-devider">
+                                            </li>
+                                            <li>
+                                                <form action="/logout" method="POST">
+                                                    @csrf
+                                                    <button class="btn dropdown-item">logout</button>
+                                                </form>
+                                                {{-- <a class="dropdown-item" href="#">Log Out</a> --}}
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    @else
+                        <div class="col-12 col-lg-4">
+                            <ul class="d-flex navbar-nav text-center text-lg-end">
+                                <li class="nav-item">
+                                    <a href="/login" class="nav-link fs-5 {{ $active === 'login' ? 'active' : '' }}"><i
+                                            class="bi bi-box-arrow-in-right"></i>
+                                        Login</a>
+                                </li>
+                            </ul>
+                        </div>
+                    @endauth
                 </div>
             </div>
         </div>

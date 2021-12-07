@@ -5,7 +5,9 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RegisterController;
+use GuzzleHttp\Middleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +25,7 @@ Route::get('/', function () {
       "title" => "Home",
       "active" => "home"
    ]);
-});
+})->name('home');
 Route::get('/test', function () {
    // dd(request('jajal'));
    $collection = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -66,8 +68,18 @@ Route::get('/categories', [CategoryController::class, 'index']);
 
 
 // login
-Route::get('/login', [LoginController::class, 'index']);
+Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->name('login');
+Route::post('/login', [LoginController::class, 'authenticate']);
+
+//logout
+Route::post('/logout', [LoginController::class, 'logout']);
+
+
 //register
 Route::get('/register', [RegisterController::class, 'index']);
 
 Route::post('/register', [RegisterController::class, 'store']);
+
+
+// dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->Middleware('auth');

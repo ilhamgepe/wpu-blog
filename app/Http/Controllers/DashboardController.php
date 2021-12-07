@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,40 +15,13 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view('login.index', [
-            "title" => "login",
-            "active" => "login"
+        return view('dashboard.index', [
+            'title' => 'Dashboard',
+            'active' => 'home'
         ]);
     }
 
 
-    //authentication ya gaes, sebenrnya bisa di store, tp ikutin di laravel aja gpp ama sandhika galih
-    public function authenticate(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email:dns',
-            'password' => ['required']
-        ]);
-
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
-        }
-
-        return back()->with('loginError', 'username / password salah!');
-    }
-
-    //logout
-    public function logout(Request $request)
-    {
-        Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect('/');
-    }
 
     /**
      * Show the form for creating a new resource.
